@@ -20,9 +20,9 @@ A lightweight Python script that polls GitHub for unread notifications and sends
 ### Option 1: Using Docker
 
 1. Clone this repository.
-2. Build the Docker image:
+2. Build the Docker image (using `latest` tag):
    ```bash
-   docker build -t github-ntfy-bridge .
+   docker build -t github-ntfy-bridge:latest .
    ```
 3. Run the container:
    ```bash
@@ -31,7 +31,7 @@ A lightweight Python script that polls GitHub for unread notifications and sends
      -e GH_TOKEN=your_token \
      -e NTFY_URL=https://ntfy.sh/your_topic \
      -v $(pwd)/data:/app/data \
-     github-ntfy-bridge
+     github-ntfy-bridge:latest
    ```
 
 ### Option 2: Manual Installation
