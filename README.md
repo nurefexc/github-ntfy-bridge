@@ -22,7 +22,7 @@ A lightweight Python script that polls GitHub for unread notifications and sends
 1. Clone this repository.
 2. Build the Docker image (using `latest` tag):
    ```bash
-   docker build -t github-ntfy-bridge:latest .
+   docker build -t your-dockerhub-username/github-ntfy-bridge:latest .
    ```
 3. Run the container:
    ```bash
@@ -31,8 +31,16 @@ A lightweight Python script that polls GitHub for unread notifications and sends
      -e GH_TOKEN=your_token \
      -e NTFY_URL=https://ntfy.sh/your_topic \
      -v $(pwd)/data:/app/data \
-     github-ntfy-bridge:latest
+     your-dockerhub-username/github-ntfy-bridge:latest
    ```
+
+## CI/CD (Automation)
+
+This repository includes a GitHub Action that automatically builds and pushes the Docker image to **Docker Hub** whenever you push to the `master` branch.
+
+To make this work, you need to add the following **Secrets** to your GitHub repository (`Settings > Secrets and variables > Actions`):
+- `DOCKERHUB_USERNAME`: Your Docker Hub username.
+- `DOCKERHUB_TOKEN`: Your Docker Hub Personal Access Token (PAT).
 
 ### Option 2: Manual Installation
 
