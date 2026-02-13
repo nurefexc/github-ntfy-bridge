@@ -6,8 +6,7 @@ on:
 
 env:
   # Docker Hub repository name (e.g., username/repo-name)
-  # You should set your Docker Hub username and a repository name here
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: nurefexc/github-ntfy-bridge
 
 jobs:
   build-and-push:
