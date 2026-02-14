@@ -1,6 +1,9 @@
 # github-ntfy-bridge
 
-A lightweight Python script that polls GitHub for unread notifications and sends them to your [ntfy](https://ntfy.sh) topic. It uses a local SQLite database to track notifications and ensure you don't get duplicate alerts for the same event.
+[![Docker Hub](https://img.shields.io/docker/pulls/nurefexc/github-ntfy-bridge.svg)](https://hub.docker.com/r/nurefexc/github-ntfy-bridge)
+[![Docker Image Size](https://img.shields.io/docker/image-size/nurefexc/github-ntfy-bridge/latest)](https://hub.docker.com/r/nurefexc/github-ntfy-bridge)
+
+A lightweight Python script that polls GitHub for unread notifications and sends them to your [ntfy](https://ntfy.sh) topic in real-time. It uses a local SQLite database to track notifications and ensure you don't get duplicate alerts for the same event.
 
 ## Features
 
@@ -8,7 +11,7 @@ A lightweight Python script that polls GitHub for unread notifications and sends
 - **Rich Notifications:** Includes emojis, tags, and priorities based on notification types (Pull Request, Issue, Release, Security, etc.).
 - **Interactive Actions:** Direct "Open on GitHub" buttons in the notification (where supported by ntfy clients).
 - **Customizable:** Configure sync interval, ntfy topic, and more via environment variables.
-- **Docker Ready:** Easy deployment using Docker.
+- **Docker Ready:** Easy deployment using Docker with official image.
 
 ## Prerequisites
 
@@ -29,9 +32,10 @@ The easiest way to run the bridge is using the official Docker image:
    ```bash
    docker run -d \
      --name github-ntfy-bridge \
+     --restart always \
+     -v $(pwd)/data:/app/data \
      -e GH_TOKEN=your_github_pat \
      -e NTFY_URL=https://ntfy.sh/your_topic \
-     -v $(pwd)/data:/app/data \
      nurefexc/github-ntfy-bridge:latest
    ```
 
@@ -52,7 +56,7 @@ To make this work, you need to add the following **Secrets** to your GitHub repo
 - `DOCKERHUB_USERNAME`: Your Docker Hub username.
 - `DOCKERHUB_TOKEN`: Your Docker Hub Personal Access Token (PAT).
 
-### Option 2: Manual Installation
+### Option 3: Manual Installation (Native)
 
 1. Install dependencies:
    ```bash
@@ -80,18 +84,18 @@ The following environment variables are supported:
 ## Notification Types Supported
 
 The bridge handles various GitHub notification types with custom icons and priorities:
-- 🔀 **Pull Requests** (Priority 4)
-- 📌 **Issues** (Priority 3)
-- 📦 **Releases** (Priority 5)
-- 🚨 **Security Vulnerabilities** (Priority 5)
-- ❌ **Check Suites / Failures** (Priority 4)
-- 💬 **Discussions** (Priority 3)
-- 💻 **Commits** (Priority 2)
+- 🔀 **Pull Requests** (Priority 4) - New or updated pull requests.
+- 📌 **Issues** (Priority 3) - New issues or comments.
+- 📦 **Releases** (Priority 5) - New releases or tags.
+- 🚨 **Security** (Priority 5) - Repository vulnerability alerts.
+- ❌ **Failures** (Priority 4) - Check suite or run failures.
+- 💬 **Discussions** (Priority 3) - New discussions or comments.
+- 💻 **Commits** (Priority 2) - New commits.
 
-Special handling:
-- **Mentions** are automatically upgraded to Priority 5 (Max) and tagged with a loudspeaker 📢.
-- **Review Requests** are set to Priority 4 and tagged with eyes 👀.
+**Special Handling:**
+- 📢 **Mentions** (Priority 5) - Automatically upgraded to Max priority.
+- 👀 **Review Requests** (Priority 4) - Tagged for immediate attention.
 
 ## License
 
-MIT
+This project is available under the MIT license. See the [LICENSE](LICENSE) file for details.
